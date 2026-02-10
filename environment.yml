@@ -47,10 +47,6 @@ dependencies:
   # gpu packages
   - llama-cpp-python
 
-  # pytest crap
-  - attrs==25.4.0
-  - xarray==2025.11.0
-
   # pip installed packages, conda is preferred
   - pip:
     - jupyterlab-a11y-checker==0.2.5

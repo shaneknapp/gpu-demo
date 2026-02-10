@@ -1,4 +1,0 @@
-attrs==25.4.0
-nbclient
-nbformat
-xarray<2025.12.0
