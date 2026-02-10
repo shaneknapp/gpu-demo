@@ -33,8 +33,7 @@ USER ${NB_USER}
 COPY environment.yml /tmp/environment.yml
 
 RUN mamba env update --prefix ${CONDA_DIR} --file /tmp/environment.yml && \
-    mamba clean --all -f -y && \
-    rm -rf /tmp/environment.yml
+    mamba clean --all -f -y
 
 # If a postBuild file exists, run it!
 # After it's done, we try to remove any possible cruft commands there
