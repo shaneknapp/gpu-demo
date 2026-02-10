@@ -30,6 +30,8 @@ RUN echo "Checking for 'jupyter_notebook_config.py'..." \
 
 USER ${NB_USER}
 
+COPY overrides.json ${CONDA_DIR}/share/jupyter/lab/settings
+
 COPY environment.yml /tmp/environment.yml
 
 RUN mamba env update --name notebook --file /tmp/environment.yml && \
