@@ -64,4 +64,7 @@ RUN echo "Checking for 'start'..." \
         && cp start /srv/start \
         ; fi
 
+USER root
+RUN chown -R ${NB_USER}:${NB_USER} ${CONDA_DIR} /srv
+
 COPY image-tests image-tests
