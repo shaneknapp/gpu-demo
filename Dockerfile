@@ -32,7 +32,7 @@ USER ${NB_USER}
 
 COPY environment.yml /tmp/environment.yml
 
-RUN mamba env update --prefix ${CONDA_DIR} --file /tmp/environment.yml && \
+RUN mamba env update --name notebook --file /tmp/environment.yml && \
     mamba clean --all -f -y
 
 # If a postBuild file exists, run it!
