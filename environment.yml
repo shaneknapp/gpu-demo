@@ -47,6 +47,9 @@ dependencies:
   - statsmodels==0.14.4
   - sympy==1.14.0
 
+  # gpu packages
+  - llama-cpp-python
+
   # pip installed packages, conda is preferred
   - pip:
     - jupyterlab-a11y-checker==0.2.5
