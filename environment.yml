@@ -19,15 +19,14 @@ dependencies:
   - jupytext==1.16.6
   - nbgitpuller==1.2.2
   - notebook==7.5.0
-  - python==3.11.*
+  - python==3.12.*
   - pip==25.1.1
-  - regex==2025.11.3
   - sqlite==3.51.1
 
-  # vscode
-  - code-server==4.106.2
-  - jupyter-vscode-proxy==0.7
-  - jupyter-server-proxy==4.4.0
+  # # vscode
+  # - code-server==4.106.2
+  # - jupyter-vscode-proxy==0.7
+  # - jupyter-server-proxy==4.4.0
 
   # # data science
   # - datascience==0.18.1
@@ -49,11 +48,11 @@ dependencies:
 
   # pip installed packages, conda is preferred
   - pip:
-    - jupyterlab-a11y-checker==0.2.5
+    # - jupyterlab-a11y-checker==0.2.5
 
     # useful for debugging python package issues
-    - pip-tree==4.0.0
-    - pipdeptree==2.28.0
-    - jupysql==0.10.15
+    # - pip-tree==4.0.0
+    # - pipdeptree==2.28.0
+    # - jupysql==0.10.15
     - nbconvert[webpdf]==7.16.6
     - otter-grader==6.1.3
