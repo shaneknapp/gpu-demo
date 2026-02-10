@@ -1,29 +1,26 @@
-ARG PANGEO_BASE_IMAGE_TAG=master
-FROM pangeo/base-image:${PANGEO_BASE_IMAGE_TAG}
+ARG PANGEO_BASE_IMAGE_TAG=2026.01.30
+FROM pangeo/pytorch-notebook:${PANGEO_BASE_IMAGE_TAG}
 
-# Required for nvidia drivers to work inside the image on GKE
-# No-ops on other platforms - Azure doesn't need these set.
-# Shouldn't negatively affect anyone, and makes life easier on GKE.
-ENV PATH=${PATH}:/usr/local/nvidia/bin
-ENV LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/local/nvidia/lib64
+# needed for webpdf notebook exports in the jovyan's environment
+ENV PLAYWRIGHT_BROWSERS_PATH=${CONDA_DIR}
+
+USER root
 
 # Install apt packages specified in a apt.txt file if it exists.
 # Unlike repo2docker, blank lines nor comments are supported here.
-ONBUILD RUN echo "Checking for 'apt.txt'..." \
-        ; [ -d binder ] && cd binder \
-        ; [ -d .binder ] && cd .binder \
-        ; if test -f "apt.txt" ; then \
-        apt-get update --fix-missing > /dev/null \
-        # Read apt.txt line by line, and execute apt-get install -y for each line in apt.txt
-        && xargs -a apt.txt apt-get install -y \
-        && apt-get clean \
-        && rm -rf /var/lib/apt/lists/* \
-        ; fi
+# Install all apt packages
+COPY apt.txt /tmp/apt.txt
+RUN apt-get -qq update --yes && \
+    apt-get -qq install --yes --no-install-recommends \
+        $(grep -v ^# /tmp/apt.txt) && \
+    apt-get -qq purge && \
+    apt-get -qq clean && \
+    rm -rf /var/lib/apt/lists/*
 
 # If a jupyter_notebook_config.py exists, copy it to /etc/jupyter so
 # it will be read by jupyter processes when they start. This feature is
 # not available in repo2docker.
-ONBUILD RUN echo "Checking for 'jupyter_notebook_config.py'..." \
+RUN echo "Checking for 'jupyter_notebook_config.py'..." \
         ; [ -d binder ] && cd binder \
         ; [ -d .binder ] && cd .binder \
         ; if test -f "jupyter_notebook_config.py" ; then \
@@ -31,7 +28,7 @@ ONBUILD RUN echo "Checking for 'jupyter_notebook_config.py'..." \
         && cp jupyter_notebook_config.py /etc/jupyter \
         ; fi
 
-ONBUILD USER ${NB_USER}
+USER ${NB_USER}
 
 COPY environment.yml /tmp/environment.yml
 
@@ -43,7 +40,7 @@ RUN mamba env update --prefix ${CONDA_DIR} --file /tmp/environment.yml && \
 # After it's done, we try to remove any possible cruft commands there
 # leave behind under $HOME - particularly stuff that jupyterlab extensions
 # leave behind.
-ONBUILD RUN echo "Checking for 'postBuild'..." \
+RUN echo "Checking for 'postBuild'..." \
         ; [ -d binder ] && cd binder \
         ; [ -d .binder ] && cd .binder \
         ; if test -f "postBuild" ; then \
@@ -58,7 +55,7 @@ ONBUILD RUN echo "Checking for 'postBuild'..." \
 
 # If a start file exists, put that under /srv/start. Used in the
 # same way as a start file in repo2docker.
-ONBUILD RUN echo "Checking for 'start'..." \
+RUN echo "Checking for 'start'..." \
         ; [ -d binder ] && cd binder \
         ; [ -d .binder ] && cd .binder \
         ; if test -f "start" ; then \
