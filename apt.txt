@@ -29,6 +29,4 @@ libxfixes3
 libxrandr2
 libgbm1
 liboss4-salsa-asound2
-dnsutils
-net-tools
 groff
