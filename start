@@ -1,10 +1,6 @@
-#!/bin/bash
-
-if [ ! -f .Renviron ]; then
-  echo "CONDA_DIR=${CONDA_DIR}" >> .Renviron
-fi
+#!/bin/bash -L
 
 # See https://jira-secure.berkeley.edu/browse/DH-305
 export PLAYWRIGHT_BROWSERS_PATH=${CONDA_DIR}
-export XDG_CONFIG_HOME=${REPO_DIR}/rstudio-config
+mamba activate notebook
 exec "$@"
