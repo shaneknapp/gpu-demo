@@ -72,3 +72,5 @@ RUN echo "Checking for 'start'..." \
 
 USER root
 RUN chown -R ${NB_USER}:${NB_USER} ${CONDA_DIR} /srv
+
+USER ${NB_USER}
