@@ -44,7 +44,7 @@ dependencies:
   - sympy==1.14.0
 
   # gpu packages
-  - llama-cpp-python
+  - llama-cpp-python[cuda]
   - huggingface_hub
 
   # pip installed packages, conda is preferred
